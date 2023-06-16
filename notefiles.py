@@ -20,11 +20,11 @@ def _get_files(markdown_note: str) -> Iterable:
 
 
 @click.command()
-@click.argument('markdown_note')
-def main(markdown_note: str):
-    for filename, content in _get_files(markdown_note):
+@click.argument('markdown_note', type=click.File('r'))
+def main(markdown_note):
+    for filename, content in _get_files(markdown_note.read()):
         if filename.exists():
-            click.echo(f'File {filename} already exists. Ignore')
+            click.echo(f'File {filename} exists. Skip')
             continue
 
         click.echo(f'Creating {filename}')
